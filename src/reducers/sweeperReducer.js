@@ -1,18 +1,28 @@
 import { brain } from './../brain';
 
-export default (state = initialState, action) => {
+export const sweeperReducer = (state = initialState, action) => {
+    console.log(action);
     switch (action.type) {
-        case 'MAKE_MOVE': {
+        case 'CHECK_SPOT': {
+            const [row, col] = action.location;
+            const newState = { ...state };
+            if (newState.board[row][col] === 10) {
+                newState.gameState = 'LOSE';
+            } else {
+                console.log('boom');
+                const newBoard = newState.board.map(x => [...x]);
+                console.log(newBoard);
+                brain.checkSpot(newBoard, [row, col]);
+                newState.board = newBoard;
+            }
+            return newState;
         }
         default:
             return state;
     }
-    return newState;
 };
 
 const initialState = {
-    board: Array(10).fill(Array(10).fill(0)),
+    board: brain.getBoard(10, 10, 15),
     gameState: 'ACTIVE',
-    activePlayer: Math.random() < 0.5 ? 1 : -1,
-    turnNumber: 1,
 };

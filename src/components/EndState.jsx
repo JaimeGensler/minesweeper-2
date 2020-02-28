@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 const Curtain = styled.div`
     position: absolute;
@@ -11,10 +12,10 @@ const Curtain = styled.div`
 `;
 const Notification = styled.div`
     position: absolute;
-    top: 35vh;
-    left: 30vw;
     width: 20vw;
     height: 10vh;
+    left: 40vw;
+    top: 45vh;
     background-color: white;
     border: 5px solid black;
     border-radius: 5px;
@@ -23,9 +24,9 @@ const Notification = styled.div`
     box-shadow: 0 0 5px white;
 `;
 
-export default function endState({ text }) {
+function endState({ text, dispatch }) {
     function handleReset() {
-        alert('yeet');
+        dispatch({ type: 'RESET_GAME' });
     }
     return (
         <Curtain>
@@ -36,3 +37,5 @@ export default function endState({ text }) {
         </Curtain>
     );
 }
+
+export default connect()(endState);

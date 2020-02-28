@@ -8,6 +8,7 @@ export const sweeperReducer = (state = initialState, action) => {
             const newState = { ...state };
             if (newState.board[row][col] === 10) {
                 newState.gameState = 'LOSE';
+                return newState;
             } else {
                 console.log('boom');
                 const newBoard = newState.board.map(x => [...x]);
@@ -15,7 +16,13 @@ export const sweeperReducer = (state = initialState, action) => {
                 brain.checkSpot(newBoard, [row, col]);
                 newState.board = newBoard;
             }
+            if (!newState.board.flat().some(e => e === null)) {
+                newState.gameState = 'WIN';
+            }
             return newState;
+        }
+        case 'RESET_GAME': {
+            return initialState;
         }
         default:
             return state;
